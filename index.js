@@ -61,9 +61,9 @@ app.get('/api/payment', async (req, res) => {
       console.error('Error fetching responses from the database:', error.message);
       res.status(500).json({ error: 'Internal Server Error' });
     }
-  });
+});
 
-  app.post('/initializePayment', async (req, res) => {
+app.post('/initializePayment', async (req, res) => {
     try {
         // Get the data from the request body
         const requestData = req.body;
@@ -86,6 +86,31 @@ app.get('/api/payment', async (req, res) => {
         console.error(error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
+});
+
+app.post('/espeesPayment', async (req, res) => {
+  try {
+      // Get the data from the request body
+      const requestData = req.body;
+
+      // Your API call logic using Axios
+      const headersList = {
+          "x-api-key": "CnNKYsdQ7iLdo61KMKV16nLhGoiMKiXaOsHhweU0",
+          "Content-Type": "application/json"
+      };
+
+      const response = await axios.post("https://api.espees.org/v2/payment/product", requestData, {
+          headers: headersList
+      });
+
+      const responseData = response.data;
+
+      // Send the response data back to the client
+      res.json(responseData);
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
 
 
